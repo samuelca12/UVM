@@ -36,34 +36,35 @@ class agent #(parameter width = 16, parameter depth = 8);
               transaccion.print("Agente: transacción creada");
               agnt_drv_mbx.put(transaccion);
             end
-         end
-         trans_aleatoria: begin
-                transaccion = new;
-			    transaccion.max_retardo = max_retardo;
-			    transaccion.randomize();
-			    transaccion.print("Agente: transacción creada");
-                agnt_drv_mbx.put(transaccion);
+          end
+          trans_aleatoria: begin
+            transaccion = new;
+            transaccion.max_retardo = max_retardo;
+            transaccion.randomize();
+            transaccion.print("Agente: transacción creada");
+            agnt_drv_mbx.put(transaccion);
+          end
+
+          trans_especifica: begin
+            transaccion = new;
+            transaccion.tipo = tpo_spec;
+            transaccion.dato = dto_spec;
+            transaccion.retardo = ret_spec;
+            transaccion.print("Agente: transacción creada");
+            agnt_drv_mbx.put(transaccion);
+          end
+
+          sec_trans_aleatorias: begin // Esta instrucción genera una secuencia de instrucciones aleatorias
+            for (int i = 0; i < num_transacciones; i++) begin
+              transaccion = new;
+              transaccion.max_retardo = max_retardo;
+              transaccion.randomize();
+              transaccion.print("Agente: transacción creada");
+              agnt_drv_mbx.put(transaccion);
             end
-
-trans_especifica: begin
-  transaccion = new;
-  transaccion.tipo = tpo_spec;
-  transaccion.dato = dto_spec;
-  transaccion.retardo = ret_spec;
-  transaccion.print("Agente: transacción creada");
-  agnt_drv_mbx.put(transaccion);
-end
-
-sec_trans_aleatorias: begin // Esta instrucción genera una secuencia de instrucciones aleatorias
-  for (int i = 0; i < num_transacciones; i++) begin
-    transaccion = new;
-    transaccion.max_retardo = max_retardo;
-    transaccion.randomize();
-    transaccion.print("Agente: transacción creada");
-    agnt_drv_mbx.put(transaccion);
-  end
-endcase
-end
-end
-endtask
+          end
+        endcase
+      end
+    end
+  endtask
 endclass
