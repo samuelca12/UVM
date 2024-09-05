@@ -18,7 +18,7 @@ class checker # (parameter width= 16, parameter depth= 8);
    forever begin
      to_sb = new();
      drv_chkr_mbx.get(transaccion);
-     transaction.print("Checker: Se recibe transacción desde el driver");
+     transaccion.print("Checker: Se recibe transacción desde el driver");
      to_sb.clean();
      case (transaccion.tipo)
        lectura: begin

@@ -27,14 +27,14 @@ class agent #(parameter width = 16, parameter depth = 8);
               transaccion.randomize();
               transaccion.tipo = escritura;
               transaccion.print("Agente: transacción creada");
-              agnt_drv_mbx.put(transaccion);
+              test_agent_mbx.put.put(transaccion);
             end
             for (int i = 0; i < num_transacciones; i++) begin
               transaccion = new;
               transaccion.randomize();
               transaccion.tipo = lectura;
               transaccion.print("Agente: transacción creada");
-              agnt_drv_mbx.put(transaccion);
+              test_agent_mbx.put.put(transaccion);
             end
           end
           trans_aleatoria: begin
@@ -42,7 +42,7 @@ class agent #(parameter width = 16, parameter depth = 8);
             transaccion.max_retardo = max_retardo;
             transaccion.randomize();
             transaccion.print("Agente: transacción creada");
-            agnt_drv_mbx.put(transaccion);
+            test_agent_mbx.put.put(transaccion);
           end
 
           trans_especifica: begin
@@ -51,7 +51,7 @@ class agent #(parameter width = 16, parameter depth = 8);
             transaccion.dato = dto_spec;
             transaccion.retardo = ret_spec;
             transaccion.print("Agente: transacción creada");
-            agnt_drv_mbx.put(transaccion);
+            test_agent_mbx.put.put(transaccion);
           end
 
           sec_trans_aleatorias: begin // Esta instrucción genera una secuencia de instrucciones aleatorias
@@ -60,7 +60,7 @@ class agent #(parameter width = 16, parameter depth = 8);
               transaccion.max_retardo = max_retardo;
               transaccion.randomize();
               transaccion.print("Agente: transacción creada");
-              agnt_drv_mbx.put(transaccion);
+              test_agent_mbx.put.put(transaccion);
             end
           end
         endcase
