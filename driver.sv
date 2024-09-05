@@ -24,7 +24,7 @@ task run();
     transaction.print("Driver: Transacción recibida");
     $display("Transacciones pendientes en el mbx agnt_drv = %g", agnt_drv_mbx.num());
 
-    while (espera < transaction.retraso) begin
+    while (espera < transaction.retardo) begin
       @(posedge vif.clk);
       espera = espera + 1;
       vif.dato_in = transaction.dato;
