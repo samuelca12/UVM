@@ -10,6 +10,10 @@ class agent #(parameter width = 16, parameter depth = 8);
   function new;
     num_transacciones = 2;
     max_retardo = 10;
+
+    // Inicialización del mailbox
+    test_agent_mbx = new();
+    
   endfunction
 
   task run;
@@ -27,7 +31,7 @@ class agent #(parameter width = 16, parameter depth = 8);
               transaccion.randomize();
               transaccion.tipo = escritura;
               transaccion.print("Agente: transacción creada");
-              test_agent_mbx.put.put(transaccion);
+              test_agent_mbx.put(transaccion);
             end
             for (int i = 0; i < num_transacciones; i++) begin
               transaccion = new;
