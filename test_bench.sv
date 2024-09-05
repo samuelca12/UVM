@@ -34,7 +34,7 @@ module test_bench;
     initial begin
         clk = 0;
         //t0 = new();
-        _if = _if;
+        //_if = _if;
         t0.ambiente_inst.driver_inst.vif = _if;
         fork
             t0.run();
