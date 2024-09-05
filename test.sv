@@ -29,37 +29,38 @@ class test #(parameter width=16, parameter depth=8);
     ambiente_inst.agent_inst.max_retardo = max_retardo;
   endfunction
 
-task run;
-  $display("[%g] El Test fue inicializado", $time);
-  fork
-    ambiente_inst.run();
-  join_none;
+  task run;
+    $display("[%g] El Test fue inicializado", $time);
+    fork
+      ambiente_inst.run();
+    join_none;
 
-  instr_agent = llenado_aleatorio;
-  test_agent_mbx.put(instr_agent);
-  $display("[%g] Test: Enviada la primera instrucción al agente lleno aleatorio con num_transacciones %g", $time, num_transacciones);
+    instr_agent = llenado_aleatorio;
+    test_agent_mbx.put(instr_agent);
+    $display("[%g] Test: Enviada la primera instrucción al agente lleno aleatorio con num_transacciones %g", $time, num_transacciones);
 
-  instr_agent = trans_aleatoria;
-  test_agent_mbx.put(instr_agent);
-  $display("[%g] Test: Enviada la segunda instrucción al agente transacción_aleatoria", $time);
+    instr_agent = trans_aleatoria;
+    test_agent_mbx.put(instr_agent);
+    $display("[%g] Test: Enviada la segunda instrucción al agente transacción_aleatoria", $time);
 
-  ambiente_inst.agent_inst.ret_spec = 3;
-  ambiente_inst.agent_inst.tpo_spec = escritura;
-  ambiente_inst.agent_inst.dto_spec = {width/4{4'h5}};
-  
-  instr_agent = trans_especifica;
-  test_agent_mbx.put(instr_agent);
-  $display("[%g] Test: Enviada la tercera instrucción al agente transacción_específica", $time);
+    ambiente_inst.agent_inst.ret_spec = 3;
+    ambiente_inst.agent_inst.tpo_spec = escritura;
+    ambiente_inst.agent_inst.dto_spec = {width/4{4'h5}};
+    
+    instr_agent = trans_especifica;
+    test_agent_mbx.put(instr_agent);
+    $display("[%g] Test: Enviada la tercera instrucción al agente transacción_específica", $time);
 
-  instr_agent = sec_trans_aleatorias;
-  test_agent_mbx.put(instr_agent);
-  $display("[%g] Test: Enviada la cuarta instrucción al agente secuencia de transacción_aleatoria", $time);
+    instr_agent = sec_trans_aleatorias;
+    test_agent_mbx.put(instr_agent);
+    $display("[%g] Test: Enviada la cuarta instrucción al agente secuencia de transacción_aleatoria", $time);
 
-  #10000;
-  $display("[%g] Test: Se alcanza el tiempo límite de la prueba", $time);
-  instr_sb = retardo_promedio;
-  test_sb_mbx.put(instr_sb);
-  instr_sb = reporte;
-  test_sb_mbx.put(instr_sb);
-  $finish;
-endtask
+    #10000;
+    $display("[%g] Test: Se alcanza el tiempo límite de la prueba", $time);
+    instr_sb = retardo_promedio;
+    test_sb_mbx.put(instr_sb);
+    instr_sb = reporte;
+    test_sb_mbx.put(instr_sb);
+    $finish;
+  endtask
+endclass 
