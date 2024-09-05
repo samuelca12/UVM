@@ -1,3 +1,4 @@
+
 class driver #(parameter width = 16);
 	virtual fifo_if #( .width(width) ) vif;
 	trans_fifo_mbx agnt_drv_mbx;
@@ -26,31 +27,29 @@ task run();
     while (espera < transaction.retardo) begin
       @(posedge vif.clk);
       espera = espera + 1;
+      vif.dato_in = transaction.dato;
     end
 
     case (transaction.tipo)
-      lectura: begin // Ejecuta lectura
-        vif.pop = 1; // Pop de la FIFO
+      lectura: begin
+        transaction.dato = vif.dato_out;
+        transaction.tiempo = $time;
         @(posedge vif.clk);
-        transaction.dato = vif.dato_out; // Lee el dato de la FIFO
+        vif.pop = 1;
+        drv_chkr_mbx.put(transaction);
+        transaction.print("Driver: Transacción ejecutada");
+      end
+      escritura: begin
+        vif.push = 1;
         transaction.tiempo = $time;
         drv_chkr_mbx.put(transaction);
-        transaction.print("Driver: Lectura ejecutada");
+        transaction.print("Driver: Transacción ejecutada");
       end
-      escritura: begin // Ejecuta escritura
-        vif.push = 1; // Push a la FIFO
-        vif.dato_in = transaction.dato; // Escribe el dato en la FIFO
-        @(posedge vif.clk);
-        transaction.tiempo = $time;
-        drv_chkr_mbx.put(transaction);
-        transaction.print("Driver: Escritura ejecutada");
-      end
-      reset: begin // Reset del sistema
+      reset: begin
         vif.rst = 1;
-        @(posedge vif.clk);
         transaction.tiempo = $time;
         drv_chkr_mbx.put(transaction);
-        transaction.print("Driver: Reset ejecutado");
+        transaction.print("Driver: Transacción ejecutada");
       end
       default: begin
         $display("[%g] Driver Error: la transacción recibida no tiene tipo válido", $time);
