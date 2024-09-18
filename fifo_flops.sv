@@ -118,7 +118,7 @@ module fifo_flops #(parameter depth = 16,parameter bits = 32)(
   output reg [bits-1:0] Dout,
   input push,
   input pop,
-  input clk,
+  input i_clk,
   output reg full,
   output reg pndng,
   input rst
@@ -158,7 +158,7 @@ module fifo_flops #(parameter depth = 16,parameter bits = 32)(
     Dout=aux_mux_or[0];  
   end
 
-  always@(posedge clk)begin
+  always@(posedge i_clk)begin
   if(rst) begin
     count <= 0;
   end else begin
